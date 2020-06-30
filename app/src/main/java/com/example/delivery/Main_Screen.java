@@ -8,12 +8,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class Main_Screen extends AppCompatActivity {
     final String TAG = "Main_Screen";
     Button btnLogout;
     SharedPreferences sharedpreferences;
+
+    ListView deliveryListView;
+    String countryList[] = {"India", "China", "australia", "Portugle", "America", "NewZealand"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,10 @@ public class Main_Screen extends AppCompatActivity {
                 logout();
             }
         });
+
+        deliveryListView = (ListView)findViewById(R.id.deliveryListView);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, R.id.delivery_list, countryList);
+        deliveryListView.setAdapter(arrayAdapter);
     }
 
     private void logout() {
