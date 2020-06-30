@@ -106,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
                             editor.putString("password", password);
                             editor.commit();
 
-                            Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
 
                             Intent mySuperIntent = new Intent(SplashActivity.this, Main_Screen.class);
                             startActivity(mySuperIntent);
