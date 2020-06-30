@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String URL = "http://192.168.1.7:80/api/users";
+        String URL = "http://" + getString(R.string.host_port) + "/api/users";
         final String client_code_text = client_code.getText().toString();
         final String company_text = company.getText().toString();
         final String user_text = user.getText().toString();
