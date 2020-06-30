@@ -32,8 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    final String TAG = "Main_Screen";
-    Button btnLogout;
+    final String TAG = "MainActivity";
+    Button btnLogout, map;
     SharedPreferences sharedpreferences;
     ArrayList<Delivery> deliveryArrayList = new ArrayList<>();
 
@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 logout();
+            }
+        });
+
+        map = findViewById(R.id.map);
+        map.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, Delivery_Location.class));
             }
         });
     }
