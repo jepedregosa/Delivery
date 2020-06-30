@@ -74,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void login(final String client_code, final String company, final String user, final String password) {
-        String URL = "http://192.168.1.7:80/api/users";
+        String URL = "http://192.168.254.100:80/api/users";
 
         if (client_code.matches("") && company.matches("")
                 && user.matches("") && password.matches("")) {
