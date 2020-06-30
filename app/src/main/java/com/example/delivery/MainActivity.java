@@ -8,101 +8,140 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.delivery.adapters.DeliveryAdapter;
+import com.example.delivery.models.Delivery;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
-    final String TAG = "MainActivity";
-    EditText client_code, company, user, password;
-    Button login_btn;
+    final String TAG = "Main_Screen";
+    Button btnLogout;
     SharedPreferences sharedpreferences;
+    ArrayList<Delivery> deliveryArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         sharedpreferences = getSharedPreferences(BuildConfig.APPLICATION_ID + ".credentials", Context.MODE_PRIVATE);
 
-        client_code = findViewById(R.id.client_code);
-        company = findViewById(R.id.company);
-        user = findViewById(R.id.user);
-        password = findViewById(R.id.password);
-        login_btn = findViewById(R.id.login_btn);
-
-        login_btn.setOnClickListener(new View.OnClickListener() {
+        getDeliveries();
+        btnLogout = findViewById(R.id.btnLogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                login();
+                logout();
             }
         });
     }
 
-    private void login() {
-        String URL = "http://" + getString(R.string.host_port) + "/api/users";
-        final String client_code_text = client_code.getText().toString();
-        final String company_text = company.getText().toString();
-        final String user_text = user.getText().toString();
-        final String password_text = password.getText().toString();
+    private void getDeliveries() {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        if (client_code_text.matches("") && company_text.matches("")
-            && user_text.matches("") && password_text.matches("")) {
-            Toast.makeText(getApplicationContext(), "All credentials must be filled.", Toast.LENGTH_SHORT).show();
-        } else {
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("client_code", client_code_text);
-                jsonObject.put("company", company_text);
-                jsonObject.put("username", user_text);
-                jsonObject.put("password", password_text);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    URL,
-                    jsonObject,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("Rest Response", response.toString());
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("client_code", client_code_text);
-                            editor.putString("company", company_text);
-                            editor.putString("user", user_text);
-                            editor.putString("password", password_text);
-                            editor.commit();
-
-                            Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
-
-                            Intent mySuperIntent = new Intent(MainActivity.this, Main_Screen.class);
-                            startActivity(mySuperIntent);
-                            finish();
-                            Log.d(TAG, "Moving to new activity");
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("Rest Response", error.toString());
-                            Toast.makeText(getApplicationContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-            );
-
-            requestQueue.add(jsonObjectRequest);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", sharedpreferences.getString("company", ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
+        JsonArrayRequest objectRequest = new JsonArrayRequest(
+            Request.Method.GET,
+            Constant.GET_DELIVERIES,
+            null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, response.toString());
+                        if (response != null) {
+                            deliveryArrayList.clear();
+                            for (int i = 0; i < response.length(); i++){
+                                try {
+                                    JSONObject jsonObject = response.getJSONObject(i);
+                                    Delivery delivery = new Delivery(
+                                        Integer.parseInt(jsonObject.getString("id")),
+                                        Integer.parseInt(jsonObject.getString("courier_id")),
+                                        Double.parseDouble(jsonObject.getString("latitude")),
+                                        Double.parseDouble(jsonObject.getString("longitude")),
+                                        jsonObject.getString("addressee_name"),
+                                        jsonObject.getString("address"),
+                                        Integer.parseInt(jsonObject.getString("id"))
+                                    );
+
+                                    deliveryArrayList.add(delivery);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        setDeliveryList();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Rest Response", error.toString());
+                    }
+                }
+        ){
+
+            // provide token in header
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                String token = sharedpreferences.getString("token","");
+                HashMap<String,String> map = new HashMap<>();
+                map.put("Authorization","Bearer " + token);
+                return map;
+            }
+        };
+
+        requestQueue.add(objectRequest);
+    }
+
+    private void setDeliveryList() {
+        DeliveryAdapter adapter = new DeliveryAdapter(MainActivity.this, deliveryArrayList);
+        ListView listView = findViewById(R.id.lvDelivery);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Delivery delivery = deliveryArrayList.get(i);
+                Log.d(TAG, delivery.getAddreseeName());
+                Toast.makeText(getApplicationContext(), delivery.getAddreseeName(), Toast.LENGTH_SHORT);
+                Intent donut = new Intent(MainActivity.this, DeliveryDetailsActivity.class);
+                startActivity(donut);
+            }
+        });
+    }
+
+    private void logout() {
+        sharedpreferences.edit().clear().commit();
+        Log.d(TAG, sharedpreferences.getString("client_code", "null"));
+        Log.d(TAG, sharedpreferences.getString("company", "null"));
+        Log.d(TAG, sharedpreferences.getString("user", "null"));
+        Log.d(TAG, sharedpreferences.getString("password", "null"));
+
+        Intent mySuperIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(mySuperIntent);
+        finish();
     }
 }

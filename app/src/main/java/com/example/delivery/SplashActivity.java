@@ -31,7 +31,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         sharedpreferences = getSharedPreferences(BuildConfig.APPLICATION_ID + ".credentials", Context.MODE_PRIVATE);
         readSharedPreferences();
 
@@ -40,12 +39,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void readSharedPreferences() {
-        Log.d(TAG, "reading shared preferences");
-        Log.d(TAG, sharedpreferences.getString("client_code", "null"));
-        Log.d(TAG, sharedpreferences.getString("company", "null"));
-        Log.d(TAG, sharedpreferences.getString("user", "null"));
-        Log.d(TAG, sharedpreferences.getString("password", "null"));
-
         tryLogin(sharedpreferences.getString("client_code", ""),
             sharedpreferences.getString("company", ""),
             sharedpreferences.getString("user", ""),
@@ -61,7 +54,7 @@ public class SplashActivity extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent mySuperIntent = new Intent(SplashActivity.this, MainActivity.class);
+                    Intent mySuperIntent = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(mySuperIntent);
                     finish();
                     Log.d(TAG, "Moving to new activity");
@@ -74,11 +67,12 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void login(final String client_code, final String company, final String user, final String password) {
-        String URL = "http://" + getString(R.string.host_port) + "/api/users";
-
         if (client_code.matches("") && company.matches("")
                 && user.matches("") && password.matches("")) {
-            Toast.makeText(getApplicationContext(), "All credentials must be filled.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Session Expired", Toast.LENGTH_SHORT).show();
+            Intent mySuperIntent = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(mySuperIntent);
+            finish();
         } else {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -93,32 +87,43 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    URL,
+                    Constant.POST_LOGIN,
                     jsonObject,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("Rest Response", response.toString());
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("client_code", client_code);
-                            editor.putString("company", company);
-                            editor.putString("user", user);
-                            editor.putString("password", password);
-                            editor.commit();
+                            try {
+                                if (response.getBoolean("success")) {
+                                    Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(getApplicationContext(), "Welcome Back", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString("token", response.getString("token"));
+                                    editor.putString("client_code", client_code);
+                                    editor.putString("company", company);
+                                    editor.putString("user", user);
+                                    editor.putString("password", password);
+                                    editor.apply();
 
-                            Intent mySuperIntent = new Intent(SplashActivity.this, Main_Screen.class);
-                            startActivity(mySuperIntent);
-                            finish();
-                            Log.d(TAG, "Moving to new activity");
+                                    Intent mySuperIntent = new Intent(SplashActivity.this, MainActivity.class);
+                                    startActivity(mySuperIntent);
+                                    finish();
+                                    Log.d(TAG, "Moving to new activity");
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Session Expired", Toast.LENGTH_SHORT).show();
+                                    Intent mySuperIntent = new Intent(SplashActivity.this, LoginActivity.class);
+                                    startActivity(mySuperIntent);
+                                    finish();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("Rest Response", error.toString());
-                            Intent mySuperIntent = new Intent(SplashActivity.this, MainActivity.class);
+                            Intent mySuperIntent = new Intent(SplashActivity.this, LoginActivity.class);
                             startActivity(mySuperIntent);
                             finish();
                         }

@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Delivery</string>
     <string name="app_id">com.example.delivery</string>
-    <string name="host_port">192.168.1.7:80</string>
 </resources>

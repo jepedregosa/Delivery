@@ -4,122 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/helix_white"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/client_code"
-        android:layout_width="282dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/stroke_box"
-        android:ems="10"
-        android:hint="Client Code"
-        android:inputType="text"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="496dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="-4dp">
 
-    <EditText
-        android:id="@+id/company"
-        android:layout_width="282dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/stroke_box"
-        android:ems="10"
-        android:hint="Company"
-        android:inputType="text"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/client_code" />
+        <ListView
+            android:id="@+id/lvDelivery"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/yellowgreen"
+            android:dividerHeight="1dp" />
 
-
-    <EditText
-        android:id="@+id/user"
-        android:layout_width="282dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/stroke_box"
-        android:ems="10"
-        android:hint="User"
-        android:inputType="text"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/company" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="282dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/stroke_box"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="323dp"
-        android:layout_height="131dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="66dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginRight="44dp"
-        app:layout_constraintBottom_toTopOf="@+id/client_code"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/helix_logo" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/login_btn"
-        android:layout_width="282dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="129dp"
-        android:layout_marginLeft="129dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="129dp"
-        android:layout_marginRight="129dp"
-        android:layout_marginBottom="90dp"
+        android:id="@+id/btnLogout"
+        android:layout_width="165dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="40dp"
         android:background="@color/yellowgreen"
-        android:includeFontPadding="false"
-        android:text="LOGIN"
-        android:textColor="@color/white"
-        android:textSize="20dp"
+        android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="219dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="180dp"
+        android:layout_marginRight="180dp"
+        android:gravity="left"
+        android:text="Assigned Deliveries"
+        android:textColor="@color/black"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:fontFamily="sans-serif-condensed-light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
