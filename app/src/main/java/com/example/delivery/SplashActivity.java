@@ -70,6 +70,7 @@ public class SplashActivity extends AppCompatActivity {
         if (client_code.matches("") && company.matches("")
                 && user.matches("") && password.matches("")) {
             Toast.makeText(getApplicationContext(), "Session Expired", Toast.LENGTH_SHORT).show();
+            sharedpreferences.edit().clear().apply();
             Intent mySuperIntent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(mySuperIntent);
             finish();
@@ -110,6 +111,7 @@ public class SplashActivity extends AppCompatActivity {
                                     Log.d(TAG, "Moving to new activity");
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Session Expired", Toast.LENGTH_SHORT).show();
+                                    sharedpreferences.edit().clear().apply();
                                     Intent mySuperIntent = new Intent(SplashActivity.this, LoginActivity.class);
                                     startActivity(mySuperIntent);
                                     finish();

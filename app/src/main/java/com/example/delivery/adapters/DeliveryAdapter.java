@@ -1,10 +1,13 @@
 package com.example.delivery.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.delivery.R;
@@ -29,16 +32,15 @@ public class DeliveryAdapter extends ArrayAdapter<Delivery> {
         tvAddresseeName.setText(delivery.addreseeName);
         tvAddress.setText(delivery.address);
 
-//        LinearLayout llDelivery = convertView.findViewById(R.id.llDelivery);
-//        llDelivery.setTag(position);
-//        llDelivery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                int position = (Integer) view.getTag();
-//                Delivery delivery1 = getItem(position);
-//                Log.d("Main_Screen", delivery1.getAddreseeName());
-//            }
-//        });
+        ImageView ivSigned = convertView.findViewById(R.id.ivSigned);
+        if (delivery.getSigned() == 1) {
+            ivSigned.setImageResource(R.drawable.ic_signed);
+        }
+
+//        CheckBox cbSigned = convertView.findViewById(R.id.cbSigned);
+//        if (delivery.getSigned() == 1) {
+//            cbSigned.setChecked(true);
+//        }
         return convertView;
     }
 }
