@@ -66,15 +66,21 @@ public class Delivery_Location extends AppCompatActivity {
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
+//                            My Location
+                            LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            MarkerOptions myLocation = new MarkerOptions()
+                                .position(myLatLng)
+                                .title("I am here");
+                            googleMap.addMarker(myLocation);
 
-                            LatLng latLng = new LatLng(location.getLatitude()
-                            ,location.getLongitude());
+//                            Delivery Location
+                            LatLng locationLatLng = new LatLng(14.59033401603546, 121.0862054591073);
+                            MarkerOptions deliveryLocation = new MarkerOptions()
+                                .position(locationLatLng)
+                                .title("Petron, Ortigas Avenue Extension, Pasig, 1609, Philippines");
+                            googleMap.addMarker(deliveryLocation);
 
-                            MarkerOptions options = new MarkerOptions().position(latLng)
-                                    .title("I am there");
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-
-                            googleMap.addMarker(options);
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 10));
                         }
                     });
                 }
