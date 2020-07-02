@@ -44,7 +44,13 @@ public class Delivery_Location extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
 
+
+
     }
+    //
+
+    //
+
 
     private void getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -64,18 +70,37 @@ public class Delivery_Location extends AppCompatActivity {
                 if (location != null){
 
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
+//                            My Location
+                            LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            MarkerOptions myLocation = new MarkerOptions()
+                                    .position(myLatLng)
+                                    .title("I am here");
+                            googleMap.addMarker(myLocation);
 
-                            LatLng latLng = new LatLng(location.getLatitude()
-                            ,location.getLongitude());
+//                            Delivery Location
+                            LatLng locationLatLng = new LatLng(12.93400000, 121.37700000);
+                            MarkerOptions deliveryLocation = new MarkerOptions()
+                                    .position(locationLatLng)
+                                    .title("Petron, Ortigas Avenue Extension, Pasig, 1609, Philippines");
+                            googleMap.addMarker(deliveryLocation);
 
-                            MarkerOptions options = new MarkerOptions().position(latLng)
-                                    .title("I am there");
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-
-                            googleMap.addMarker(options);
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 10));
                         }
+//                        @Override
+//                        public void onMapReady(GoogleMap googleMap) {
+//
+//                            LatLng latLng = new LatLng(location.getLatitude()
+//                                    ,location.getLongitude());
+//
+//                            MarkerOptions options = new MarkerOptions().position(latLng)
+//                                    .title("I am there");
+//                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+//
+//                            googleMap.addMarker(options);
+//                        }
                     });
                 }
             }
@@ -91,4 +116,6 @@ public class Delivery_Location extends AppCompatActivity {
             }
         }
     }
+
+
 }
