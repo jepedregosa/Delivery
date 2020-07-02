@@ -34,7 +34,7 @@ public class DeliveryAdapter extends ArrayAdapter<Delivery> {
 
         ImageView ivSigned = convertView.findViewById(R.id.ivSigned);
         if (delivery.getSigned() == 1) {
-            ivSigned.setImageResource(R.drawable.ic_signed);
+            ivSigned.setImageResource(R.drawable.ic_baseline_check_box_24);
         }
 
 //        CheckBox cbSigned = convertView.findViewById(R.id.cbSigned);

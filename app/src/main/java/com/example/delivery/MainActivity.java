@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Button btnDeliver = dialogView.findViewById(R.id.btnDeliver);
                 if (delivery.getSigned() == 1) {
-                    btnDeliver.setText("Undeliver");
+                    btnDeliver.setText("Undelivered");
                 }
 
                 btnDeliver.setOnClickListener(new View.OnClickListener() {
@@ -171,10 +171,10 @@ public class MainActivity extends AppCompatActivity {
                         ImageView ivSigned = selectedView.findViewById(R.id.ivSigned);
                         if (delivery.getSigned() == 1) {
                             deliveryArrayList.get(i).setSigned(0);
-                            ivSigned.setImageResource(R.drawable.ic_unsigned);
+                            ivSigned.setImageResource(R.drawable.ic_baseline_check_box_outline_blank_24);
                         } else {
                             deliveryArrayList.get(i).setSigned(1);
-                            ivSigned.setImageResource(R.drawable.ic_signed);
+                            ivSigned.setImageResource(R.drawable.ic_baseline_check_box_24);
                         }
 
                         updateDeliverySigned(delivery.getId());
