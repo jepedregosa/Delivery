@@ -84,7 +84,7 @@ public class Delivery_Location extends AppCompatActivity {
                             LatLng locationLatLng = new LatLng(12.93400000, 121.37700000);
                             MarkerOptions deliveryLocation = new MarkerOptions()
                                     .position(locationLatLng)
-                                    .title("Petron, Ortigas Avenue Extension, Pasig, 1609, Philippines");
+                                    .title("Gloria Oriental Mindoro, Philippines");
                             googleMap.addMarker(deliveryLocation);
 
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 10));
