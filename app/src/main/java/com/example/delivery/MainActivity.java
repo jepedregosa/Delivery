@@ -56,13 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 logout();
             }
         });
-
-        map = findViewById(R.id.map);
-        map.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Delivery_Location.class));
-            }
-        });
     }
 
     private void getDeliveries() {
@@ -157,6 +150,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(getApplicationContext(), delivery.getAddreseeName(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, Delivery_Location.class);
+                        intent.putExtra("id", delivery.getId());
+                        intent.putExtra("address", delivery.getAddress());
+                        intent.putExtra("latitude", delivery.getLatitude());
+                        intent.putExtra("longitude", delivery.getLongitude());
+                        startActivity(intent);
                     }
                 });
 
@@ -191,52 +190,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mySuperIntent);
         finish();
     }
-
-//    static View selectedView;
-//    static int selectedIndex;
-//    static Delivery selectedDelivery;
-
-//    public static class DeliveryBottomSheetDialogFragment extends BottomSheetDialogFragment {
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-//            View v = inflater.inflate(R.layout.bottom_sheet, container, false);
-//            Button btnDirection = v.findViewById(R.id.btnDirection);
-//            btnDirection.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(getActivity().getApplicationContext(), selectedDelivery.getAddreseeName(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//            Button btnDeliver = v.findViewById(R.id.btnDeliver);
-//            if (selectedDelivery.getSigned() == 1) {
-//                btnDeliver.setText("Undeliver");
-//            }
-//
-//            btnDeliver.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(getActivity().getApplicationContext(), "Delivered", Toast.LENGTH_SHORT).show();
-////                    deliveryArrayList.remove(selectedIndex);
-////                    deliveryAdapter.notifyDataSetChanged();
-//
-//                    ImageView ivSigned = selectedView.findViewById(R.id.ivSigned);
-//                    if (selectedDelivery.getSigned() == 1) {
-//                        deliveryArrayList.get(selectedIndex).setSigned(0);
-//                        ivSigned.setImageResource(R.drawable.ic_unsigned);
-//                    } else {
-//                        deliveryArrayList.get(selectedIndex).setSigned(1);
-//                        ivSigned.setImageResource(R.drawable.ic_signed);
-//                    }
-//
-////                    updateDeliverySigned(selectedDelivery.getId());
-//
-//                    dismiss();
-//                }
-//            });
-//            return v;
-//        }
-//    }
 
     private void updateDeliverySigned(final int delivery_id) {
         StringRequest request = new StringRequest(

@@ -1,55 +1,6 @@
 package com.example.delivery.models;
 
-import android.content.Intent;
-
-import com.google.gson.annotations.SerializedName;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-
-//public class Delivery  implements Serializable {
-//    @SerializedName("id")
-//    public Integer id;
-//    @SerializedName("courier_id")
-//    public Integer courier_id;
-//    @SerializedName("latitude")
-//    public Double latitude;
-//    @SerializedName("longitude")
-//    public Double longitude;
-//    @SerializedName("addresee_name")
-//    public String addresee_name;
-//    @SerializedName("address")
-//    public String address;
-//    @SerializedName("signed")
-//    public Integer signed;
-//}
-
 public class Delivery {
-//    public Delivery(JSONObject object){
-//        try {
-//            this.name = object.getString("name");
-//            this.hometown = object.getString("hometown");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static ArrayList<Delivery> fromJson(JSONArray jsonObjects) {
-//        ArrayList<Delivery> users = new ArrayList<Delivery>();
-//        for (int i = 0; i < jsonObjects.length(); i++) {
-//            try {
-//                users.add(new Delivery(jsonObjects.getJSONObject(i)));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return users;
-//    }
-
     public Integer id;
     public Integer courierId;
     public Double latitude;

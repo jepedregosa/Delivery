@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -21,46 +23,44 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 public class Delivery_Location extends AppCompatActivity {
-
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    String address;
+    Double latitude;
+    Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery__location);
 
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_location);
+        Intent intent = getIntent();
+        address = intent.getStringExtra("address");
+        latitude = intent.getDoubleExtra("latitude", 0);
+        longitude = intent.getDoubleExtra("longitude", 0);
 
+        Log.d("DELIVERY LOCATION", address);
+        Log.d("DELIVERY LOCATION", latitude.toString());
+        Log.d("DELIVERY LOCATION", longitude.toString());
+
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+            .findFragmentById(R.id.map_location);
         client = LocationServices.getFusedLocationProviderClient(this);
 
         if (ActivityCompat.checkSelfPermission(Delivery_Location.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation();
         }else{
             ActivityCompat.requestPermissions(Delivery_Location.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
-
-
-
     }
-    //
-
-    //
-
 
     private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+        if (ActivityCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         Task<Location> task = client.getLastLocation();
@@ -68,9 +68,7 @@ public class Delivery_Location extends AppCompatActivity {
             @Override
             public void onSuccess(final Location location) {
                 if (location != null){
-
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
 //                            My Location
@@ -81,26 +79,14 @@ public class Delivery_Location extends AppCompatActivity {
                             googleMap.addMarker(myLocation);
 
 //                            Delivery Location
-                            LatLng locationLatLng = new LatLng(14.59033401603546, 121.0862054591073);
+                            LatLng locationLatLng = new LatLng(latitude, longitude);
                             MarkerOptions deliveryLocation = new MarkerOptions()
                                 .position(locationLatLng)
-                                .title("Petron, Ortigas Avenue Extension, Pasig, 1609, Philippines");
+                                .title(address);
                             googleMap.addMarker(deliveryLocation);
 
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(locationLatLng, 10));
                         }
-//                        @Override
-//                        public void onMapReady(GoogleMap googleMap) {
-//
-//                            LatLng latLng = new LatLng(location.getLatitude()
-//                                    ,location.getLongitude());
-//
-//                            MarkerOptions options = new MarkerOptions().position(latLng)
-//                                    .title("I am there");
-//                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
-//
-//                            googleMap.addMarker(options);
-//                        }
                     });
                 }
             }
@@ -116,6 +102,4 @@ public class Delivery_Location extends AppCompatActivity {
             }
         }
     }
-
-
 }
