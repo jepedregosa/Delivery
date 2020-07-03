@@ -130,14 +130,6 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-//                Intent intent = new Intent(MainActivity.this, DeliveryDetailsActivity.class);
-//                startActivity(intent);
-
-//                selectedIndex = i;
-//                selectedDelivery = deliveryArrayList.get(i);
-//                selectedView = listView.getChildAt(i);
-//                new DeliveryBottomSheetDialogFragment().show(getSupportFragmentManager(), "Dialog");
-
                 final Delivery delivery = deliveryArrayList.get(i);
                 final View selectedView = listView.getChildAt(i);
                 View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
@@ -149,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 btnDirection.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), delivery.getAddreseeName(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, Delivery_Location.class);
                         intent.putExtra("id", delivery.getId());
                         intent.putExtra("address", delivery.getAddress());
