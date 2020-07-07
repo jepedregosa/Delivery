@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivity";
-    Button btnLogout, btnTest;
+    Button btnLogout, btnTest, btnTest2;
     static SharedPreferences sharedpreferences;
     static ArrayList<Delivery> deliveryArrayList = new ArrayList<>();
 
@@ -65,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
                 uploadSignature();
             }
         });
+
+        btnTest2 = findViewById(R.id.btnTest2);
+        btnTest2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goToSignature();
+            }
+        });
+    }
+
+    private void goToSignature() {
+        Intent intent = new Intent(MainActivity.this, Signature_Pad.class);
+        startActivity(intent);
     }
 
     private void getDeliveries() {
@@ -291,7 +303,6 @@ public class MainActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
-
     }
 
     private String bitmapToString(Bitmap bitmap) {
