@@ -177,9 +177,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout() {
         sharedpreferences.edit().clear().apply();
-        Intent mySuperIntent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent mySuperIntent = new Intent(MainActivity.this, Signature_Pad.class);
         startActivity(mySuperIntent);
-        finish();
+//        finish();
     }
 
     private void updateDeliverySigned(final int delivery_id) {
