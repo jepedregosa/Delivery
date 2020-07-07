@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnTest = findViewById(R.id.btnTest);
-        btnTest.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                uploadSignature();
-            }
-        });
+//        btnTest = findViewById(R.id.btnTest);
+//        btnTest.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                uploadSignature();
+//            }
+//        });
 
         btnTest2 = findViewById(R.id.btnTest2);
         btnTest2.setOnClickListener(new View.OnClickListener() {
@@ -252,66 +252,66 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
 
-    private Bitmap bitmap = null;
-
-    private void uploadSignature(){
-        StringRequest request = new StringRequest(
-            Request.Method.POST,
-            Constant.UPLOAD_DELIVERY_SIGNATURE,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.d("Rest Response", response.toString());
-                    try {
-                        JSONObject object = new JSONObject(response);
-                        if (object.getBoolean("success")){
-                            Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
-                        }
-                        Log.e("Rest Response", object.toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("Rest Response", error.toString());
-                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        )
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                String token = sharedpreferences.getString("token","");
-                HashMap<String,String> map = new HashMap<>();
-                map.put("Authorization","Bearer "+token);
-                return map;
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String,String> map = new HashMap<>();
-                map.put("desc", "description_test");
-                map.put("photo", bitmapToString(bitmap));
-                return map;
-            }
-        };
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(request);
-    }
-
-    private String bitmapToString(Bitmap bitmap) {
-        if (bitmap != null){
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-            byte [] array = byteArrayOutputStream.toByteArray();
-            return Base64.encodeToString(array,Base64.DEFAULT);
-        }
-        return "";
-    }
+//    private Bitmap bitmap = null;
+//
+//    private void uploadSignature(){
+//        StringRequest request = new StringRequest(
+//            Request.Method.POST,
+//            Constant.UPLOAD_DELIVERY_SIGNATURE,
+//            new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    Log.d("Rest Response", response.toString());
+//                    try {
+//                        JSONObject object = new JSONObject(response);
+//                        if (object.getBoolean("success")){
+//                            Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
+//                        }
+//                        Log.e("Rest Response", object.toString());
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            },
+//            new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.e("Rest Response", error.toString());
+//                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        )
+//        {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                String token = sharedpreferences.getString("token","");
+//                HashMap<String,String> map = new HashMap<>();
+//                map.put("Authorization","Bearer "+token);
+//                return map;
+//            }
+//
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                HashMap<String,String> map = new HashMap<>();
+//                map.put("desc", "description_test");
+//                map.put("photo", bitmapToString(bitmap));
+//                return map;
+//            }
+//        };
+//
+//        RequestQueue queue = Volley.newRequestQueue(this);
+//        queue.add(request);
+//    }
+//
+//    private String bitmapToString(Bitmap bitmap) {
+//        if (bitmap != null){
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+//            byte [] array = byteArrayOutputStream.toByteArray();
+//            return Base64.encodeToString(array,Base64.DEFAULT);
+//        }
+//        return "";
+//    }
 }

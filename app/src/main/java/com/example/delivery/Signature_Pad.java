@@ -3,6 +3,7 @@ package com.example.delivery;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -32,6 +33,7 @@ import java.util.Map;
 public class Signature_Pad extends AppCompatActivity {
     final String TAG = "SIGNATURE_PAD";
     static SharedPreferences sharedpreferences;
+    int id;
     SignaturePad signaturePad;
     Button saveButton, clearButton;
 
@@ -41,6 +43,9 @@ public class Signature_Pad extends AppCompatActivity {
         setContentView(R.layout.activity_signature__pad);
         sharedpreferences = getSharedPreferences(BuildConfig.APPLICATION_ID + ".credentials", Context.MODE_PRIVATE);
 
+        Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
+
         signaturePad = (SignaturePad)findViewById(R.id.signaturePad);
         saveButton = (Button)findViewById(R.id.saveButton);
         clearButton = (Button)findViewById(R.id.clearButton);
@@ -48,7 +53,8 @@ public class Signature_Pad extends AppCompatActivity {
         saveButton.setEnabled(false);
         clearButton.setEnabled(false);
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
         signaturePad.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
@@ -99,6 +105,8 @@ public class Signature_Pad extends AppCompatActivity {
                             JSONObject object = new JSONObject(response);
                             if (object.getBoolean("success")){
                                 Toast.makeText(getApplicationContext(), object.getString("message"), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(Signature_Pad.this, MainActivity.class);
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
@@ -128,8 +136,8 @@ public class Signature_Pad extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> map = new HashMap<>();
-                map.put("desc", "description_test");
-                map.put("photo", bitmapToString(bitmap));
+                map.put("delivery_id", Integer.toString(id));
+                map.put("signature", bitmapToString(bitmap));
                 return map;
             }
         };

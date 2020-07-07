@@ -39,11 +39,4 @@
         app:srcCompat="@drawable/ic_baseline_check_box_outline_blank_24"
         android:layout_weight="11"/>
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/cbSigned"-->
-<!--        android:layout_width="fill_parent"-->
-<!--        android:layout_height="fill_parent"-->
-<!--        android:layout_weight="11"/>-->
-
-
 </androidx.appcompat.widget.LinearLayoutCompat>

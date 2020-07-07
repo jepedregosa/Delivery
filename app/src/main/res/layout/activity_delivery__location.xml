@@ -7,11 +7,11 @@
     tools:context=".Delivery_Location">
 
     <Button
+        android:id="@+id/btnSignature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign"
         android:background="@color/yellowgreen"
-        />
+        android:text="Sign" />
 
     <fragment
         android:layout_width="match_parent"

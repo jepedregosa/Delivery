@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -25,9 +27,11 @@ import com.google.android.gms.tasks.Task;
 public class Delivery_Location extends AppCompatActivity {
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    int id;
     String address;
     Double latitude;
     Double longitude;
+    Button btnSignature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +39,17 @@ public class Delivery_Location extends AppCompatActivity {
         setContentView(R.layout.activity_delivery__location);
 
         Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
         address = intent.getStringExtra("address");
         latitude = intent.getDoubleExtra("latitude", 0);
         longitude = intent.getDoubleExtra("longitude", 0);
 
-        Log.d("DELIVERY LOCATION", address);
-        Log.d("DELIVERY LOCATION", latitude.toString());
-        Log.d("DELIVERY LOCATION", longitude.toString());
+        btnSignature = findViewById(R.id.btnSignature);
+        btnSignature.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goToSignature();
+            }
+        });
 
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
             .findFragmentById(R.id.map_location);
@@ -54,6 +62,12 @@ public class Delivery_Location extends AppCompatActivity {
             ActivityCompat.requestPermissions(Delivery_Location.this,
             new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
         }
+    }
+
+    private void goToSignature() {
+        Intent intent = new Intent(this, Signature_Pad.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     private void getCurrentLocation() {
