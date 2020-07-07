@@ -6,4 +6,5 @@ public class Constant {
     public static final String POST_LOGIN = URL + "login";
     public static final String GET_DELIVERIES = URL + "deliveries";
     public static final String UPDATE_DELIVERIES_SIGNED = URL + "update-delivery-signed";
+    public static final String UPLOAD_DELIVERY_SIGNATURE = URL + "upload-delivery-signature";
 }
