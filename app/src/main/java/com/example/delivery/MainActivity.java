@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivity";
-    Button btnLogout;
+    Button btnLogout, btnLocation;
     static SharedPreferences sharedpreferences;
     static ArrayList<Delivery> deliveryArrayList = new ArrayList<>();
 
@@ -53,11 +53,15 @@ public class MainActivity extends AppCompatActivity {
                 logout();
             }
         });
-    }
 
-    private void goToSignature() {
-        Intent intent = new Intent(MainActivity.this, Signature_Pad.class);
-        startActivity(intent);
+        getDeliveries();
+        btnLocation = findViewById(R.id.btnLocation);
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getDeliveries() {
