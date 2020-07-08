@@ -14,12 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LocationActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD4KfDcLVjVPatpIKtrPXot024Z4UHVZQ8" />
 
+        
+        <activity android:name=".LocationActivity"></activity>
+        <activity android:name=".Profile"></activity>
         <activity android:name=".Signature_Pad" />
         <activity android:name=".DeliveryDetailsActivity" />
         <activity android:name=".LoginActivity" />

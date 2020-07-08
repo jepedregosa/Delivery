@@ -37,6 +37,8 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivity";
     Button btnLogout, btnLocation;
+    Button btnLogout;
+    ImageView ImageProfile;
     static SharedPreferences sharedpreferences;
     static ArrayList<Delivery> deliveryArrayList = new ArrayList<>();
 
@@ -54,7 +56,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getDeliveries();
+        ImageProfile = findViewById(R.id.ImageProfile);
+        ImageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profile();
+            }
+        });
+
         btnLocation = findViewById(R.id.btnLocation);
         btnLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -186,6 +195,11 @@ public class MainActivity extends AppCompatActivity {
         Intent mySuperIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(mySuperIntent);
         finish();
+    }
+
+    private void profile() {
+        Intent mySuperIntent = new Intent(MainActivity.this, Profile.class);
+        startActivity(mySuperIntent);
     }
 
     private void updateDeliverySigned(final int delivery_id, final int signed) {
