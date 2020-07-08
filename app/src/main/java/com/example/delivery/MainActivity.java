@@ -37,6 +37,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     final String TAG = "MainActivity";
     Button btnLogout;
+    ImageView ImageProfile;
     static SharedPreferences sharedpreferences;
     static ArrayList<Delivery> deliveryArrayList = new ArrayList<>();
 
@@ -53,6 +54,17 @@ public class MainActivity extends AppCompatActivity {
                 logout();
             }
         });
+
+        ImageProfile = findViewById(R.id.ImageProfile);
+
+        ImageProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profile();
+            }
+        });
+
+
     }
 
     private void goToSignature() {
@@ -182,6 +194,11 @@ public class MainActivity extends AppCompatActivity {
         Intent mySuperIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(mySuperIntent);
         finish();
+    }
+
+    private void profile() {
+        Intent mySuperIntent = new Intent(MainActivity.this, Profile.class);
+        startActivity(mySuperIntent);
     }
 
     private void updateDeliverySigned(final int delivery_id, final int signed) {
